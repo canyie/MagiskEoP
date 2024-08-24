@@ -1,6 +1,8 @@
 ## Introduction
-This is an exploit for a vulnerability in Magisk app that allows local apps to silently gain root access without user consent. 
+This is an exploit for a vulnerability in Magisk app that allows a local app to silently gain root access without user consent. 
+
 Vulnerability was initially reported by [@vvb2060](https://github.com/vvb2060) and PoC-ed by [@canyie](https://github.com/canyie). It has been fixed in Canary 27007.
+
 Demo video for exploit this vulnerability to silently obtaining root privileges and granting root to any app: https://github.com/canyie/MagiskEoP/blob/main/screen-20220302-093745.mp4
 
 
@@ -13,21 +15,34 @@ Steps to reproduce this vulnerability:
 
 ## Vulnerability Info
 Name: Magisk App Arbitrary Code Execution Vulnerability
+
 Alias: Magisk Privilege Escalation Vulnerability
 
 ### The Basics
 Product: Magisk
+
 CVE: N/A (not yet assigned)
+
 Reporter: [@vvb2060](https://github.com/vvb2060)
+
 Initial Report Date: 2024-08-01
+
 Patch Date: 2024-08-21
+
 Disclosure Date: 2024-08-24
+
 Affected Versions: Manager v7.0.0 ~ Canary 27006
+
 First Patched Versions: Canary 27007
+
 Issue/Bug report: https://github.com/topjohnwu/Magisk/issues/8279
+
 Patch CL: https://github.com/topjohnwu/Magisk/commit/c2eb6039579b8a2fb1e11a753cea7662c07bec02
+
 Bug-introducing CL: https://github.com/topjohnwu/Magisk/commit/920b60da19212dd8d54d27ada77a30067ce50de6
+
 Bug Class: Unsafe Dynamic External Code Loading
+
 Weakness Enumerations:
 - [CWE-386: Symbolic Name not Mapping to Correct Object](https://cwe.mitre.org/data/definitions/386.html)
 - [CWE-829: Inclusion of Functionality from Untrusted Control Sphere](https://cwe.mitre.org/data/definitions/829.html)

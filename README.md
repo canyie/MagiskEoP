@@ -1,5 +1,5 @@
 ## Introduction
-This is an exploit for a vulnerability in Magisk app that allows a local app to silently gain root access without user consent. 
+This is an exploit for a vulnerability CVE-2024-48336 in Magisk app that allows a local app to silently gain root access without user consent. 
 
 Vulnerability was initially reported by [@vvb2060](https://github.com/vvb2060) and PoC-ed by [@canyie](https://github.com/canyie). It has been fixed in Canary 27007.
 
@@ -21,7 +21,7 @@ Alias: Magisk Privilege Escalation Vulnerability
 ### The Basics
 Product: Magisk
 
-CVE: N/A (not yet assigned)
+CVE: [CVE-2024-48336](https://nvd.nist.gov/vuln/detail/CVE-2024-48336)
 
 Reporter: [@vvb2060](https://github.com/vvb2060)
 
@@ -48,7 +48,7 @@ Weakness Enumerations:
 - [CWE-829: Inclusion of Functionality from Untrusted Control Sphere](https://cwe.mitre.org/data/definitions/829.html)
 
 ### Summary
-Magisk is a suite of open source software for customizing Android. Prior to version canary 27007, in install of ProviderInstaller.java, there is a possible way to load arbitrary code into Magisk app due to a missing package validation. This could lead to local escalation of privileges allowing attackers to gain root access with no additional privileges needed. User interaction is not needed for exploitation.
+The install() function of ProviderInstaller.java in Magisk App before canary version 27007 does not verify the GMS app before loading it, which allows a local untrusted app with no additional privileges to silently execute arbitrary code in the Magisk app and escalate privileges to root via a crafted package, aka Bug #8279. User interaction is not needed for exploitation.
 
 ### Details
 Old Android versions do not support some algorithms. To make Magisk work properly on these platforms, it tries to load conscrypt from GMS by calling [createCallingContext()](https://developer.android.com/reference/android/content/Context#createPackageContext(java.lang.String,%20int)). Check this link for more details: https://t.me/vvb2060Channel/692
@@ -60,4 +60,6 @@ However, GMS is not always preinstalled on all devices. Magisk assumes that load
 - Devices with broken signature verification implementation (e.g. Disabled by CorePatch)
 
 Note: This issue is fixed in Canary 27007 by ensuring GMS is a system app before loading it. However, it's still possible to exploit this issue on devices with pre-installed GMS but have broken signature verification implementations (e.g. CorePatch).
+
+Note 2: Although a fix for this issue is present in the official Magisk app, there are many other instances of similar code exist in other apps without a proper fix such as [this](https://github.com/Fox2Code/FoxMagiskModuleManager/blob/master/app/src/main/java/com/fox2code/mmm/utils/io/GMSProviderInstaller.java#L51) and [this](https://github.com/vvb2060/KeyAttestation/blob/master/app/src/main/java/io/github/vvb2060/keyattestation/AppApplication.kt#L37). This potentially allows an arbitrary code execution in vulnerable apps and potentially allows attackers to gain root access again if it is granted to victim apps.
 
